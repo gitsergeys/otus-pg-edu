@@ -1,2 +1,3 @@
 # otus-pg-edu
-education otus postgresql
+
+> [Домашнее задание 1](https://github.com/gitsergeys/otus-pg-edu/blob/main/homework-1.md)
