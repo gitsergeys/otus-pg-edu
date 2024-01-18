@@ -8,5 +8,5 @@
 
 [Домашнее задание 4](https://github.com/gitsergeys/otus-pg-edu/blob/main/homework-4.md)
 
-[Домашнее задание 4](https://github.com/gitsergeys/otus-pg-edu/blob/main/homework-5.md)
+[Домашнее задание 5](https://github.com/gitsergeys/otus-pg-edu/blob/main/homework-5.md)
 
