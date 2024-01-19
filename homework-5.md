@@ -123,7 +123,7 @@ postgres@otus-pg-edu-vm:~$
 
 *Создаем таблицу с текстовым полем и заполняем данными в размере 1млн строк*
 ```bash
-root@ats-test-2:/ # su postgres
+root@otus-pg-edu-vm:/ # su postgres
 bash-4.2$ psql
 psql (15.4)
 Type "help" for help.
@@ -290,7 +290,7 @@ postgres=#
 ****************
 #### **Дополнительное задание со звездочкой**
 -------------------------------------------------------
-*Процедуру тестировал в Navicate все отработало, в psql которым никогда не пользуюсь не тестировал*
+*Процедуру тестировал в Navicate все отработало, в psql не тестировал*
 ```sql
 create or replace functions update_text_values() 
 returns void as $$
