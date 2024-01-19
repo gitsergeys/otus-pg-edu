@@ -300,7 +300,7 @@ begin
     while counter <= 10 loop
         raise notice 'Step %', counter;
         update otus 
-        set text = text || ' otus_education'
+        set text = text || ' otus_education';
         counter := counter + 1;
     end loop;
 end;
