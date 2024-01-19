@@ -292,7 +292,7 @@ postgres=#
 -------------------------------------------------------
 *Процедуру тестировал в Navicate все отработало, в psql не тестировал*
 ```sql
-create or replace functions update_text_values() 
+create or replace function update_text_values() 
 returns void as $$
 declare
     counter int := 1;
