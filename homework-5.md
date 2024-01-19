@@ -290,7 +290,7 @@ postgres=#
 ****************
 #### **Дополнительное задание со звездочкой**
 -------------------------------------------------------
-*Процедуру тестировал в Navicate все отработало, в psql не тестировал*
+*Процедуру тестировал в Navicate все отработало, в psql не тестировал, после 10 проходов у меня закончилось место на диске VM )*
 ```sql
 create or replace function update_text_values() 
 returns void as $$
@@ -300,7 +300,7 @@ begin
     while counter <= 10 loop
         raise notice 'Step %', counter;
         update otus 
-        set text = text || ' otus_education';
+        set text = 'otus_education';
         counter := counter + 1;
     end loop;
 end;
