@@ -269,3 +269,114 @@ postgres=# select * from otus limit 10;
 postgres=#
 ```
 **Ошибок нет**
+
+----
+*Другой способ решения пункта 6*
+ - Создаем второй кластер с включенной контрольной суммой страниц*
+```bash
+root@otus-pg-edu-vm:~ # pg_createcluster 15 second -- --data-checksums
+Creating new PostgreSQL cluster 15/second ...
+/usr/lib/postgresql/15/bin/initdb -D /var/lib/postgresql/15/second --auth-local peer --auth-host scram-sha-256 --no-instructions --data-checksums
+The files belonging to this database system will be owned by user "postgres".
+This user must also own the server process.
+
+The database cluster will be initialized with this locale configuration:
+  provider:    libc
+  LC_COLLATE:  en_US.UTF-8
+  LC_CTYPE:    en_US.UTF-8
+  LC_MESSAGES: en_US.UTF-8
+  LC_MONETARY: ru_RU.UTF-8
+  LC_NUMERIC:  ru_RU.UTF-8
+  LC_TIME:     ru_RU.UTF-8
+The default database encoding has accordingly been set to "UTF8".
+The default text search configuration will be set to "english".
+
+Data page checksums are enabled.
+
+fixing permissions on existing directory /var/lib/postgresql/15/second ... ok
+creating subdirectories ... ok
+selecting dynamic shared memory implementation ... posix
+selecting default max_connections ... 100
+selecting default shared_buffers ... 128MB
+selecting default time zone ... Europe/Moscow
+creating configuration files ... ok
+running bootstrap script ... ok
+performing post-bootstrap initialization ... ok
+syncing data to disk ... ok
+Ver Cluster Port Status Owner    Data directory                Log file
+15  second  5433 down   postgres /var/lib/postgresql/15/second /var/log/postgresql/postgresql-15-second.log
+root@otus-pg-edu-vm:~ # pg_ctlcluster 15 second start
+root@otus-pg-edu-vm:~ # pg_lsclusters
+Ver Cluster Port Status Owner    Data directory                Log file
+15  main    5432 online postgres /var/lib/postgresql/15/main   /var/log/postgresql/postgresql-15-main.log
+15  second  5433 online postgres /var/lib/postgresql/15/second /var/log/postgresql/postgresql-15-second.log
+root@otus-pg-edu-vm:~ #
+```
+- Создаем таблицу и вносим данные, так же нужно узнать ее месторасположение на диске
+```bash
+root@otus-pg-edu-vm:~ # su postgres
+postgres@otus-pg-edu-vm:/root$ cd ~
+postgres@otus-pg-edu-vm:~$ psql -p 5433
+psql (15.5 (Ubuntu 15.5-1.pgdg22.04+1))
+Type "help" for help.
+
+postgres=# create table otus (id bigserial, text varchar(50));
+CREATE TABLE
+postgres=# insert into otus(text) select 'education' from generate_series(1,100);
+INSERT 0 100
+postgres=#  select oid from pg_class where relname = 'otus';
+  oid
+-------
+ 16389
+(1 row)
+
+postgres=# select pg_relation_filepath('16389');
+ pg_relation_filepath
+----------------------
+ base/5/16389
+(1 row)
+
+postgres=# \q
+postgres@otus-pg-edu-vm:~$
+```
+- Выключаем кластер
+```bash
+postgres@otus-pg-edu-vm:~$ pg_ctlcluster 15 second stop
+postgres@otus-pg-edu-vm:~$ pg_lsclusters
+Ver Cluster Port Status Owner    Data directory                Log file
+15  main    5432 online postgres /var/lib/postgresql/15/main   /var/log/postgresql/postgresql-15-main.log
+15  second  5433 down   postgres /var/lib/postgresql/15/second /var/log/postgresql/postgresql-15-second.log
+postgres@otus-pg-edu-vm:~$
+```
+- Изменяем пару байт в таблице, открываем файл в редакторе и удаляем несколько символов
+```bash
+vim /var/lib/postgresql/15/second/base/5/16389
+![image](https://github.com/gitsergeys/otus-pg-edu/assets/59079428/40d8424f-ddd0-4c85-aa58-a81b4f7f90eb)
+:x!
+```
+- Запускаем кластер и делаем выборку данных из таблицы
+```bash
+root@otus-pg-edu-vm:~ # pg_ctlcluster 15 second start
+root@otus-pg-edu-vm:~ # pg_lsclusters
+Ver Cluster Port Status Owner    Data directory                Log file
+15  main    5432 online postgres /var/lib/postgresql/15/main   /var/log/postgresql/postgresql-15-main.log
+15  second  5433 online postgres /var/lib/postgresql/15/second /var/log/postgresql/postgresql-15-second.log
+root@otus-pg-edu-vm:~ # su postgres
+postgres@otus-pg-edu-vm:/root$ cd ~
+postgres@otus-pg-edu-vm:~$ psql -p 5433
+psql (15.5 (Ubuntu 15.5-1.pgdg22.04+1))
+Type "help" for help.
+
+postgres=# \dt
+        List of relations
+ Schema | Name | Type  |  Owner
+--------+------+-------+----------
+ public | otus | table | postgres
+(1 row)
+
+postgres=# select * from otus limit 10;
+ id | text
+----+------
+(0 rows)
+```
+**Ошибки снова нет, но и данных теперь вовсе нет**
