@@ -351,9 +351,10 @@ postgres@otus-pg-edu-vm:~$
 - Изменяем пару байт в таблице, открываем файл в редакторе и удаляем несколько символов
 ```bash
 vim /var/lib/postgresql/15/second/base/5/16389
-![image](https://github.com/gitsergeys/otus-pg-edu/assets/59079428/40d8424f-ddd0-4c85-aa58-a81b4f7f90eb)
 :x!
 ```
+![image](https://github.com/gitsergeys/otus-pg-edu/assets/59079428/40d8424f-ddd0-4c85-aa58-a81b4f7f90eb)
+
 - Запускаем кластер и делаем выборку данных из таблицы
 ```bash
 root@otus-pg-edu-vm:~ # pg_ctlcluster 15 second start
