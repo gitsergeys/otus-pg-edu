@@ -6,3 +6,4 @@
 - [X] [Домашнее задание 5](https://github.com/gitsergeys/otus-pg-edu/blob/main/homework-5.md)
 - [X] [Домашнее задание 6](https://github.com/gitsergeys/otus-pg-edu/blob/main/homework-6.md)
 - [X] [Домашнее задание 7](https://github.com/gitsergeys/otus-pg-edu/blob/main/homework-7.md)
+- [X] [Домашнее задание 8](https://github.com/gitsergeys/otus-pg-edu/blob/main/homework-8.md)
