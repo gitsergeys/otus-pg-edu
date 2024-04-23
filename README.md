@@ -11,5 +11,5 @@
 - [X] [Домашнее задание 10](https://github.com/gitsergeys/otus-pg-edu/blob/main/homework-10.md)
 - [X] [Домашнее задание 11](https://github.com/gitsergeys/otus-pg-edu/blob/main/homework-11.md)
 - [X] [Домашнее задание 12](https://github.com/gitsergeys/otus-pg-edu/blob/main/homework-12.md)
-- [] [Домашнее задание 13](https://github.com/gitsergeys/otus-pg-edu/blob/main/homework-13.md)
+- [ ] [Домашнее задание 13](https://github.com/gitsergeys/otus-pg-edu/blob/main/homework-13.md)
 - [X] [Домашнее задание 14](https://github.com/gitsergeys/otus-pg-edu/blob/main/homework-14.md)
